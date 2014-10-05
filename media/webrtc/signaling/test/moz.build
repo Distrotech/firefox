@@ -1,0 +1,21 @@
+# -*- Mode: python; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+if CONFIG['OS_TARGET'] != 'WINNT' and CONFIG['MOZ_WIDGET_TOOLKIT'] != 'gonk':
+    CPP_UNIT_TESTS += [
+        'mediaconduit_unittests.cpp',
+        'mediapipeline_unittest.cpp',
+        'sdp_unittests.cpp',
+        'signaling_unittests.cpp',
+    ]
+include('/ipc/chromium/chromium-config.mozbuild')
+
+if CONFIG['OS_TARGET'] in ('Darwin', 'Android'):
+    DEFINES['GTEST_USE_OWN_TR1_TUPLE'] = 1
+
+for var in ('USE_FAKE_MEDIA_STREAMS', 'USE_FAKE_PCOBSERVER',
+            'NR_SOCKET_IS_VOID_PTR', 'HAVE_STRDUP'):
+    DEFINES[var] = True

@@ -1,0 +1,27 @@
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+LOCAL_INCLUDES = -I$(srcdir)
+
+LOCAL_INCLUDES += -I$(topsrcdir)/dom/base \
+            -I$(topsrcdir)/dom/events \
+            -I$(topsrcdir)/dom/ipc \
+            -I$(topsrcdir)/content/base/src \
+            -I$(topsrcdir)/netwerk/base/src \
+            -I$(topsrcdir)/netwerk/protocol/http
+
+ifeq ($(MOZ_WIDGET_TOOLKIT),windows)
+LOCAL_INCLUDES += -I$(srcdir)/win
+endif
+
+ifdef MOZ_ENABLE_DBUS
+OS_INCLUDES   += $(TK_CFLAGS) $(MOZ_DBUS_CFLAGS)
+endif
+
+include $(topsrcdir)/config/rules.mk
+
+ifneq (,$(filter qt gtk2 gtk3, $(MOZ_WIDGET_TOOLKIT)))
+CXXFLAGS += $(TK_CFLAGS) $(MOZ_DBUS_GLIB_CFLAGS)
+endif

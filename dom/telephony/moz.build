@@ -1,0 +1,58 @@
+# -*- Mode: python; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+XPIDL_SOURCES += [
+    'nsITelephonyProvider.idl',
+]
+
+XPIDL_MODULE = 'dom_telephony'
+
+EXPORTS.mozilla.dom += [
+    'CallEvent.h',
+    'CallsList.h',
+    'Telephony.h',
+    'TelephonyCall.h',
+    'TelephonyCallGroup.h',
+]
+
+EXPORTS.mozilla.dom.telephony += [
+    'ipc/TelephonyChild.h',
+    'ipc/TelephonyParent.h',
+    'TelephonyCommon.h',
+    'TelephonyFactory.h',
+]
+
+UNIFIED_SOURCES += [
+    'CallEvent.cpp',
+    'CallsList.cpp',
+    'ipc/TelephonyChild.cpp',
+    'ipc/TelephonyIPCProvider.cpp',
+    'ipc/TelephonyParent.cpp',
+    'Telephony.cpp',
+    'TelephonyCall.cpp',
+    'TelephonyCallGroup.cpp',
+    'TelephonyFactory.cpp',
+]
+
+IPDL_SOURCES += [
+    'ipc/PTelephony.ipdl',
+    'ipc/PTelephonyRequest.ipdl',
+    'ipc/TelephonyTypes.ipdlh'
+]
+
+if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'gonk' and CONFIG['MOZ_B2G_RIL']:
+    XPIDL_SOURCES += [
+        'nsIGonkTelephonyProvider.idl',
+    ]
+    EXTRA_COMPONENTS += [
+        'gonk/TelephonyProvider.js',
+        'gonk/TelephonyProvider.manifest',
+    ]
+
+FAIL_ON_WARNINGS = True
+include('/ipc/chromium/chromium-config.mozbuild')
+
+FINAL_LIBRARY = 'gklayout'

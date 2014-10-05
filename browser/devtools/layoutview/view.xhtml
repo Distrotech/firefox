@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html [
+<!ENTITY % layoutviewDTD SYSTEM "chrome://browser/locale/devtools/layoutview.dtd" >
+ %layoutviewDTD;
+]>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <head>
+    <title>&title;</title>
+
+    <script type="application/javascript;version=1.8"
+            src="chrome://browser/content/devtools/theme-switching.js"/>
+
+    <script type="application/javascript;version=1.8" src="view.js"></script>
+
+    <link rel="stylesheet" href="chrome://browser/skin/devtools/common.css" type="text/css"/>
+    <link rel="stylesheet" href="chrome://browser/skin/devtools/layoutview.css" type="text/css"/>
+    <link rel="stylesheet" href="view.css" type="text/css"/>
+
+  </head>
+  <body class="theme-body devtools-monospace">
+
+    <p id="header">
+      <span id="element-size"></span><span id="element-position"></span>
+    </p>
+
+    <div id="main">
+
+      <div id="margins" tooltip="&margins.tooltip;">
+        <div id="borders" tooltip="&borders.tooltip;">
+          <div id="padding" tooltip="&padding.tooltip;">
+            <div id="content" tooltip="&content.tooltip;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="border top"><span tooltip="border-top"></span></p>
+      <p class="border right"><span tooltip="border-right"></span></p>
+      <p class="border bottom"><span tooltip="border-bottom"></span></p>
+      <p class="border left"><span tooltip="border-left"></span></p>
+
+      <p class="margin top"><span tooltip="margin-top"></span></p>
+      <p class="margin right"><span tooltip="margin-right"></span></p>
+      <p class="margin bottom"><span tooltip="margin-bottom"></span></p>
+      <p class="margin left"><span tooltip="margin-left"></span></p>
+
+      <p class="padding top"><span tooltip="padding-top"></span></p>
+      <p class="padding right"><span tooltip="padding-right"></span></p>
+      <p class="padding bottom"><span tooltip="padding-bottom"></span></p>
+      <p class="padding left"><span tooltip="padding-left"></span></p>
+
+      <p class="size"><span tooltip="&content.tooltip;"></span></p>
+
+      <span class="tooltip"></span>
+
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "sync_account": {
+    "username": "",
+    "password": "",
+    "passphrase": ""
+  },
+  "fx_account": {
+    "username": "",
+    "password": ""
+  },
+  "email": {
+    "username": "crossweave@mozilla.com",
+    "password": "",
+    "passednotificationlist": ["crossweave@mozilla.com"],
+    "notificationlist": ["crossweave@mozilla.com"]
+  },
+  "auth_type": "fx_account",
+  "es": "localhost:9200",
+  "os": "Ubuntu",
+  "platform": "linux64",
+  "serverURL": null,
+  "extensiondir": "__EXTENSIONDIR__",
+  "testdir": "__TESTDIR__"
+}

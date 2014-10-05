@@ -1,0 +1,36 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# ANGLE uses the STL, so we can't use our derpy STL wrappers.
+STL_FLAGS =
+
+ifndef GNU_CC
+# Enable unwind semantics for exception handlers in response to warning C4530.
+OS_CPPFLAGS += -EHsc
+endif
+
+# Below is a transcription of the EGL target from build_angle.gypi.
+# Target: 'libEGL'
+#   Links with: 'libGLESv2'
+DEFFILE = $(srcdir)/libEGL.def
+RCFILE  = $(srcdir)/libEGL.rc
+
+include $(topsrcdir)/config/rules.mk
+
+CXXFLAGS += -I'$(MOZ_DIRECTX_SDK_PATH)/include'
+
+#OS_LIBS += $(call EXPAND_LIBNAME,dwmapi)
+
+ifdef GNU_CC
+
+OS_CXXFLAGS := $(filter-out -fno-exceptions,$(OS_CXXFLAGS)) -fexceptions
+OS_LIBS += -ld3d9 -llibGLESv2
+
+else
+
+EXTRA_DSO_LDOPTS = '$(MOZ_DIRECTX_SDK_PATH)/lib/$(MOZ_DIRECTX_SDK_CPU_SUFFIX)/d3d9.lib' \
+                   '$(DIST)/lib/libGLESv2.lib' \
+                   delayimp.lib
+
+endif

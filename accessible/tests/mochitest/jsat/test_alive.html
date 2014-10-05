@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <title>AccessFu test for enabling</title>
+
+  <link rel="stylesheet" type="text/css"
+        href="chrome://mochikit/content/tests/SimpleTest/test.css" />
+  <script type="application/javascript"
+          src="chrome://mochikit/content/tests/SimpleTest/SimpleTest.js"></script>
+  <script type="application/javascript"
+          src="../common.js"></script>
+  <script type="application/javascript"
+          src="./jsatcommon.js"></script>
+  <script type="application/javascript">
+
+    function confirmAccessFuStart() {
+      ok(AccessFu._enabled, "AccessFu was started and enabled.");
+      AccessFuTest.nextTest();
+    }
+
+    // Listen for 'EventManager.stop' and enable AccessFu again.
+    function onStop() {
+      ok(true, "EventManager was stopped.");
+      isnot(AccessFu._enabled, true, "AccessFu was disabled.");
+      AccessFuTest.once_log("EventManager.start", AccessFuTest.nextTest);
+      AccessFu._enable();
+    }
+
+    // Make sure EventManager is started again.
+    function onFinalStart() {
+      ok(true, "EventManager was started again.");
+      ok(AccessFu._enabled, "AccessFu was enabled again.");
+      AccessFuTest.finish();
+    }
+
+    // Listen for initial 'EventManager.start' and disable AccessFu.
+    function onInitialStart() {
+      ok(true, "EventManager was started.");
+      AccessFuTest.once_log("EventManager.stop", AccessFuTest.nextTest);
+      AccessFu._disable();
+    }
+
+    function init() {
+      AccessFuTest.once_log("EventManager.start", AccessFuTest.nextTest);
+    }
+
+    function doTest() {
+      AccessFuTest.addFunc(confirmAccessFuStart);
+      AccessFuTest.addFunc(init);
+      AccessFuTest.addFunc(onInitialStart);
+      AccessFuTest.addFunc(onStop);
+      AccessFuTest.addFunc(onFinalStart);
+      AccessFuTest.waitForExplicitFinish();
+      AccessFuTest.runTests();  // Will call SimpleTest.finish();
+    }
+
+    SimpleTest.waitForExplicitFinish();
+    addA11yLoadEvent(doTest);
+  </script>
+
+</head>
+<body>
+  <a target="_blank"
+     href="https://bugzilla.mozilla.org/show_bug.cgi?id=811307"
+     title="[AccessFu] Add mochitest for enabling">
+    Mozilla Bug 811307
+  </a>
+</body>
+</html>

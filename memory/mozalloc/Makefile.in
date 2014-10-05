@@ -1,0 +1,19 @@
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+STL_FLAGS	=
+ifdef _MSC_VER
+STL_FLAGS	= -D_HAS_EXCEPTIONS=0
+endif
+
+DIST_INSTALL 	= 1
+
+ifneq (,$(filter OS2 WINNT,$(OS_ARCH)))
+SDK_LIBRARY = $(IMPORT_LIBRARY)
+else
+SDK_LIBRARY = $(SHARED_LIBRARY)
+endif
+
+LOCAL_INCLUDES += -I$(DEPTH)/xpcom

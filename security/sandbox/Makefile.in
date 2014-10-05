@@ -1,0 +1,26 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+ifeq ($(OS_ARCH),WINNT)
+
+LOCAL_INCLUDES += \
+    -I$(topsrcdir)/security/sandbox/chromium/base/shim \
+    -I$(topsrcdir)/security/sandbox/chromium \
+    -I$(topsrcdir)/security \
+    -I$(topsrcdir)/nsprpub \
+    $(NULL)
+
+EXTRA_SDK_DECLS = $(topsrcdir)/security/sandbox/chromium/base/shim/sdkdecls.h
+
+ifdef _MSC_VER
+OS_CXXFLAGS += -FI $(EXTRA_SDK_DECLS)
+else
+OS_CXXFLAGS += -include $(EXTRA_SDK_DECLS)
+endif
+
+STL_FLAGS =
+MOZ_GLUE_LDFLAGS =
+endif
+
+include $(topsrcdir)/config/rules.mk

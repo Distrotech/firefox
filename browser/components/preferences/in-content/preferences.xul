@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://global/skin/global.css"?>
+
+<?xml-stylesheet href="chrome://mozapps/content/preferences/preferences.css"?>
+
+<?xml-stylesheet href="chrome://browser/skin/preferences/preferences.css"?>
+<?xml-stylesheet 
+  href="chrome://browser/skin/preferences/in-content/preferences.css"?>
+<?xml-stylesheet 
+  href="chrome://browser/content/preferences/handlers.css"?>
+<?xml-stylesheet href="chrome://browser/skin/preferences/applications.css"?>
+
+<!DOCTYPE page [
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+<!ENTITY % preferencesDTD SYSTEM 
+  "chrome://browser/locale/preferences/preferences.dtd">
+<!ENTITY % privacyDTD SYSTEM "chrome://browser/locale/preferences/privacy.dtd">
+<!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
+<!ENTITY % syncBrandDTD SYSTEM "chrome://browser/locale/syncBrand.dtd">
+<!ENTITY % syncDTD SYSTEM "chrome://browser/locale/preferences/sync.dtd">
+<!ENTITY % securityDTD SYSTEM 
+  "chrome://browser/locale/preferences/security.dtd">
+<!ENTITY % sanitizeDTD SYSTEM "chrome://browser/locale/sanitize.dtd">
+<!ENTITY % mainDTD SYSTEM "chrome://browser/locale/preferences/main.dtd">
+<!ENTITY % aboutHomeDTD SYSTEM "chrome://browser/locale/aboutHome.dtd">
+<!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
+<!ENTITY % applicationsDTD SYSTEM 
+  "chrome://browser/locale/preferences/applications.dtd">
+<!ENTITY % advancedDTD SYSTEM 
+  "chrome://browser/locale/preferences/advanced.dtd">
+%brandDTD;
+%preferencesDTD;
+%privacyDTD;
+%tabsDTD;
+%syncBrandDTD;
+%syncDTD;
+%securityDTD;
+%sanitizeDTD;
+%mainDTD;
+%aboutHomeDTD;
+%contentDTD;
+%applicationsDTD;
+%advancedDTD;
+]>
+
+#ifdef XP_WIN
+#define USE_WIN_TITLE_STYLE
+#endif
+#ifdef XP_OS2
+#define USE_WIN_TITLE_STYLE
+#endif
+
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+#ifdef USE_WIN_TITLE_STYLE
+      title="&prefWindow.titleWin;">
+#else
+      title="&prefWindow.titleGNOME;">
+#endif
+
+  <script type="application/javascript"
+          src="chrome://browser/content/utilityOverlay.js"/>
+  <script type="application/javascript"
+          src="chrome://browser/content/preferences/in-content/preferences.js"/>
+
+  <stringbundle id="bundleBrand" 
+                src="chrome://branding/locale/brand.properties"/>
+  <stringbundle id="bundlePreferences"
+                src="chrome://browser/locale/preferences/preferences.properties"/>
+
+  <stringbundleset id="appManagerBundleset">
+    <stringbundle id="appManagerBundle"
+                  src="chrome://browser/locale/preferences/applicationManager.properties"/>
+  </stringbundleset>
+
+  <hbox id="header">
+    <toolbarbutton id="back-btn" class="nav-button header-button"
+                   oncommand="cmd_back()" tooltiptext="&buttonBack.tooltip;"
+                   disabled="true"/>
+    <toolbarbutton id="forward-btn" class="nav-button header-button"
+                   oncommand="cmd_forward()" tooltiptext="&buttonForward.tooltip;"
+                   disabled="true"/>
+  </hbox>
+
+  <hbox flex="1">
+
+    <!-- category list -->
+    <richlistbox id="categories">
+      <richlistitem id="category-general" class="category" align="center"
+                    value="paneGeneral" tooltiptext="&paneGeneral.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneGeneral.title;"/>
+      </richlistitem>
+
+      <richlistitem id="category-content" class="category" align="center"
+                    value="paneContent" tooltiptext="&paneContent.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneContent.title;"/>
+      </richlistitem>
+
+      <richlistitem id="category-application" class="category" align="center"
+                    value="paneApplications" tooltiptext="&paneApplications.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneApplications.title;"/>
+      </richlistitem>
+
+      <richlistitem id="category-privacy" class="category" align="center"
+                    value="panePrivacy" tooltiptext="&panePrivacy.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&panePrivacy.title;"/>
+      </richlistitem>
+
+      <richlistitem id="category-security" class="category" align="center"
+                    value="paneSecurity" tooltiptext="&paneSecurity.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneSecurity.title;"/>
+      </richlistitem>
+
+#ifdef MOZ_SERVICES_SYNC
+      <richlistitem id="category-sync" class="category" align="center"
+                    value="paneSync" tooltiptext="&paneSync.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneSync.title;"/>
+      </richlistitem>
+#endif
+
+      <richlistitem id="category-advanced" class="category" align="center"
+                    value="paneAdvanced" tooltiptext="&paneAdvanced.title;">
+        <image class="category-icon"/>
+        <label class="category-name" flex="1" value="&paneAdvanced.title;"/>
+      </richlistitem>
+    </richlistbox>
+
+    <box class="main-content" flex="1">
+      <prefpane flex="1" id="mainPrefPane">
+#include main.xul
+#include privacy.xul
+#include advanced.xul
+#include applications.xul
+#include content.xul
+#include security.xul
+#ifdef MOZ_SERVICES_SYNC
+#include sync.xul
+#endif
+      </prefpane>
+    </box>
+
+  </hbox>
+</page>

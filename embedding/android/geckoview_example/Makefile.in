@@ -1,0 +1,53 @@
+include $(topsrcdir)/config/rules.mk
+
+GARBAGE = \
+	AndroidManifest.xml \
+	proguard-project.txt \
+	project.properties \
+	ant.properties \
+	build.xml \
+	local.properties \
+	$(NULL)
+
+GARBAGE_DIRS = \
+	assets \
+	geckoview_library \
+	gen \
+	bin \
+	libs \
+	res \
+	src \
+	binaries \
+	$(NULL)
+
+ANDROID=$(ANDROID_SDK)/../../tools/android
+
+TARGET= $(notdir $(ANDROID_SDK))
+
+PACKAGE_DEPS = \
+	build.xml \
+	res/layout/main.xml \
+	AndroidManifest.xml \
+	src/org/mozilla/geckoviewexample/GeckoViewExample.java \
+	assets/libxul.so \
+	$(NULL)
+
+res/layout/main.xml: $(srcdir)/main.xml
+	$(NSINSTALL) $(srcdir)/main.xml res/layout/
+
+AndroidManifest.xml: $(srcdir)/AndroidManifest.xml
+	$(NSINSTALL) $(srcdir)/AndroidManifest.xml .
+
+src/org/mozilla/geckoviewexample/GeckoViewExample.java: $(srcdir)/GeckoViewExample.java
+	$(NSINSTALL) $(srcdir)/GeckoViewExample.java src/org/mozilla/geckoviewexample/
+
+assets/libxul.so: $(DIST)/geckoview_library/geckoview_assets.zip
+	$(UNZIP) -o $(DIST)/geckoview_library/geckoview_assets.zip
+
+build.xml:
+	$(ANDROID) create project --name GeckoViewExample --target $(TARGET) --path $(CURDIR) --activity GeckoViewExample --package org.mozilla.geckoviewexample
+	$(ANDROID) update project --target $(TARGET) --path $(CURDIR) --library $(DEPTH)/mobile/android/geckoview_library
+	echo jar.libs.dir=libs >> project.properties
+
+package: $(PACKAGE_DEPS)
+	ant debug
